@@ -1,0 +1,93 @@
+﻿@model ArtizanWebProject.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Create Account";
+    Layout = "_Layout";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0 text-center">Yeni hesap oluştur.</h4>
+            </div>
+            <div class="card-body">
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
+                <form asp-action="Register" asp-controller="Account" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="FirstName" class="control-label fw-bold">Ad</label>
+                                <input asp-for="FirstName" class="form-control" placeholder="Adınızı giriniz" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="LastName" class="control-label fw-bold">Soyad</label>
+                                <input asp-for="LastName" class="form-control" placeholder="Soyadınızı giriniz" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Email" class="control-label fw-bold">Email Adres</label>
+                        <input asp-for="Email" class="form-control" placeholder="Email adresinizi giriniz" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Phone" class="control-label fw-bold">Telefon numarası</label>
+                        <input asp-for="Phone" class="form-control" placeholder="Telefon numaranızı giriniz" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Password" class="control-label fw-bold">Şifre</label>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Şifrenizi giriniz" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label asp-for="ConfirmPassword" class="control-label fw-bold">Şifre doğrulama</label>
+                        <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Şifrenizi doğrulayınız" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Hesap oluştur</button>
+                        <div class="text-center mt-3">
+                            <span>Already have an account? </span>
+                            <a asp-action="Login" asp-controller="Account" class="text-primary text-decoration-none">Giriş yap</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Add client-side validation for password match
+        $(document).ready(function () {
+            $("#Password, #ConfirmPassword").on("keyup", function () {
+                if ($("#Password").val() != $("#ConfirmPassword").val()) {
+                    $("#ConfirmPassword").get(0).setCustomValidity("Şifreleriniz uyuşmuyor.");
+                } else {
+                    $("#ConfirmPassword").get(0).setCustomValidity("");
+                }
+            });
+        });
+    </script>
+}
